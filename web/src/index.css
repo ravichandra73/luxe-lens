@@ -1,0 +1,6 @@
+
+/* Performance hints */
+.will-fade {
+  will-change: opacity, transform;
+}
+

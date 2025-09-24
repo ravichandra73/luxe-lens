@@ -1,122 +1,220 @@
-# README
+# Luxe Lens - Redwood.js Full-Stack Application
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+A modern full-stack web application built with Redwood.js, TypeScript, and Yarn.
 
-> **Prerequisites**
->
-> - Redwood requires [Node.js](https://nodejs.org/en/) (=20.x) and [Yarn](https://yarnpkg.com/)
-> - Are you on Windows? For best results, follow our [Windows development setup](https://redwoodjs.com/docs/how-to/windows-development-setup) guide
+## 🚀 Quick Start
 
-Start by installing dependencies:
+### Prerequisites
 
-```
+- Node.js 20.x (recommended)
+- Yarn 4.6.0+
+
+### Installation
+
+```bash
+# Install dependencies
 yarn install
+
+# Set up the database
+yarn db:generate
+yarn db:push
 ```
 
-Then start the development server:
+## 📜 Available Scripts
 
-```
-yarn redwood dev
-```
+### Development Scripts
 
-Your browser should automatically open to [http://localhost:8910](http://localhost:8910) where you'll see the Welcome Page, which links out to many great resources.
+#### Start Both Frontend and Backend Together
 
-> **The Redwood CLI**
->
-> Congratulations on running your first Redwood CLI command! From dev to deploy, the CLI is with you the whole way. And there's quite a few commands at your disposal:
->
-> ```
-> yarn redwood --help
-> ```
->
-> For all the details, see the [CLI reference](https://redwoodjs.com/docs/cli-commands).
-
-## Prisma and the database
-
-Redwood wouldn't be a full-stack framework without a database. It all starts with the schema. Open the [`schema.prisma`](api/db/schema.prisma) file in `api/db` and replace the `UserExample` model with the following `Post` model:
-
-```prisma
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-}
+```bash
+# Start both frontend and backend simultaneously
+yarn dev
 ```
 
-Redwood uses [Prisma](https://www.prisma.io/), a next-gen Node.js and TypeScript ORM, to talk to the database. Prisma's schema offers a declarative way of defining your app's data models. And Prisma [Migrate](https://www.prisma.io/migrate) uses that schema to make database migrations hassle-free:
+#### Start Frontend and Backend Separately
 
-```
-yarn rw prisma migrate dev
+```bash
+# Start only the frontend (React app)
+yarn dev:frontend
 
-# ...
-
-? Enter a name for the new migration: › create posts
-```
-
-> `rw` is short for `redwood`
-
-You'll be prompted for the name of your migration. `create posts` will do.
-
-Now let's generate everything we need to perform all the CRUD (Create, Retrieve, Update, Delete) actions on our `Post` model:
-
-```
-yarn redwood generate scaffold post
+# Start only the backend (API server)
+yarn dev:backend
 ```
 
-Navigate to [http://localhost:8910/posts/new](http://localhost:8910/posts/new), fill in the title and body, and click "Save".
+### Build and Production Scripts
 
-Did we just create a post in the database? Yup! With `yarn rw generate scaffold <model>`, Redwood created all the pages, components, and services necessary to perform all CRUD actions on our posts table.
+```bash
+# Build the entire application
+yarn build
 
-## Frontend first with Storybook
-
-Don't know what your data models look like? That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data. Mockup, build, and verify your React components, even in complete isolation from the backend:
-
-```
-yarn rw storybook
+# Start the production server
+yarn start
 ```
 
-Seeing "Couldn't find any stories"? That's because you need a `*.stories.{tsx,jsx}` file. The Redwood CLI makes getting one easy enough—try generating a [Cell](https://redwoodjs.com/docs/cells), Redwood's data-fetching abstraction:
+### Testing Scripts
 
-```
-yarn rw generate cell examplePosts
-```
+```bash
+# Run all tests
+yarn test
 
-The Storybook server should hot reload and now you'll have four stories to work with. They'll probably look a little bland since there's no styling. See if the Redwood CLI's `setup ui` command has your favorite styling library:
-
-```
-yarn rw setup ui --help
+# Run tests in watch mode
+yarn test:watch
 ```
 
-## Testing with Jest
+### Code Quality Scripts
 
-It'd be hard to scale from side project to startup without a few tests. Redwood fully integrates Jest with both the front- and back-ends, and makes it easy to keep your whole app covered by generating test files with all your components and services:
+```bash
+# Run linting
+yarn lint
 
-```
-yarn rw test
-```
+# Fix linting issues automatically
+yarn lint:fix
 
-To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing#scenarios) and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls).
-
-## Ship it
-
-Redwood is designed for both serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
-
-```
-yarn rw setup deploy --help
+# Run TypeScript type checking
+yarn type-check
 ```
 
-Don't go live without auth! Lock down your app with Redwood's built-in, database-backed authentication system ([dbAuth](https://redwoodjs.com/docs/authentication#self-hosted-auth-installation-and-setup)), or integrate with nearly a dozen third-party auth providers:
+### Database Scripts
+
+```bash
+# Generate Prisma client
+yarn db:generate
+
+# Push schema changes to database
+yarn db:push
+
+# Create and run database migrations
+yarn db:migrate
+
+# Seed the database with sample data
+yarn db:seed
+
+# Reset the database (⚠️ This will delete all data)
+yarn db:reset
+```
+
+## 🏗️ Project Structure
 
 ```
-yarn rw setup auth --help
+├── api/                 # Backend API (GraphQL)
+│   ├── db/             # Database schema and migrations
+│   ├── src/
+│   │   ├── functions/  # Serverless functions
+│   │   ├── graphql/    # GraphQL schema and resolvers
+│   │   ├── lib/        # Shared utilities
+│   │   └── services/   # Business logic
+├── web/                # Frontend (React)
+│   ├── public/         # Static assets
+│   └── src/
+│       ├── components/ # React components
+│       ├── layouts/    # Page layouts
+│       ├── pages/      # Page components
+│       └── Routes.tsx  # Routing configuration
+├── scripts/            # Utility scripts
+└── package.json        # Root package configuration
 ```
 
-## Next Steps
+## 🛠️ Technology Stack
 
-The best way to learn Redwood is by going through the comprehensive [tutorial](https://redwoodjs.com/docs/tutorial/foreword) and joining the community (via the [Discourse forum](https://community.redwoodjs.com) or the [Discord server](https://discord.gg/redwoodjs)).
+- **Framework**: Redwood.js
+- **Frontend**: React 18, TypeScript
+- **Backend**: GraphQL, Prisma ORM
+- **Database**: SQLite (development), PostgreSQL (production)
+- **Package Manager**: Yarn 4.6.0
+- **Build Tool**: Vite
 
-## Quick Links
+## 🌐 Development URLs
 
-- Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
-- [Learn how to contribute](https://redwoodjs.com/docs/contributing)
+- **Frontend**: http://localhost:8910
+- **Backend API**: http://localhost:8911
+- **GraphQL Playground**: http://localhost:8911/graphql
+
+## 📝 Getting Started
+
+1. **Clone and install dependencies**:
+
+   ```bash
+   git clone <your-repo-url>
+   cd luxe-lens
+   yarn install
+   ```
+
+2. **Set up the database**:
+
+   ```bash
+   yarn db:generate
+   yarn db:push
+   ```
+
+3. **Start development servers**:
+
+   ```bash
+   # Option 1: Start both together
+   yarn dev
+
+   # Option 2: Start separately
+   yarn dev:frontend  # Terminal 1
+   yarn dev:backend   # Terminal 2
+   ```
+
+4. **Open your browser**:
+   - Frontend: http://localhost:8910
+   - GraphQL Playground: http://localhost:8911/graphql
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Database
+DATABASE_URL="file:./dev.db"
+
+# Authentication (if using)
+REDWOOD_ENV_AUTH_PROVIDER="dbAuth"
+```
+
+### TypeScript Configuration
+
+- Root: `tsconfig.json`
+- API: `api/tsconfig.json`
+- Web: `web/tsconfig.json`
+
+## 🚀 Deployment
+
+### Build for Production
+
+```bash
+yarn build
+```
+
+### Deploy
+
+Redwood.js applications can be deployed to various platforms:
+
+- Vercel
+- Netlify
+- AWS
+- Railway
+- And more...
+
+## 📚 Learn More
+
+- [Redwood.js Documentation](https://redwoodjs.com/docs)
+- [Redwood.js Tutorial](https://redwoodjs.com/docs/tutorial/foreword)
+- [GraphQL Documentation](https://graphql.org/learn/)
+- [Prisma Documentation](https://www.prisma.io/docs)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests: `yarn test`
+5. Run linting: `yarn lint`
+6. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.

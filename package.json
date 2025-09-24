@@ -6,9 +6,28 @@
       "web"
     ]
   },
+  "scripts": {
+    "dev": "yarn rw dev",
+    "dev:frontend": "yarn rw dev web",
+    "dev:backend": "yarn rw dev api",
+    "start": "node start-app.js",
+    "start:prod": "yarn rw start",
+    "build": "yarn rw build",
+    "test": "yarn rw test",
+    "test:watch": "yarn rw test --watch",
+    "lint": "yarn rw lint",
+    "lint:fix": "yarn rw lint --fix",
+    "type-check": "yarn rw type-check",
+    "db:generate": "yarn rw prisma generate",
+    "db:push": "yarn rw prisma db push",
+    "db:migrate": "yarn rw prisma db migrate dev",
+    "db:seed": "yarn rw exec seed",
+    "db:reset": "yarn rw prisma db reset"
+  },
   "devDependencies": {
     "@redwoodjs/core": "8.8.1",
-    "@redwoodjs/project-config": "8.8.1"
+    "@redwoodjs/project-config": "8.8.1",
+    "concurrently": "^9.2.1"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

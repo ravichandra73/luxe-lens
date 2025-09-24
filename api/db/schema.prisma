@@ -14,11 +14,132 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+// Sunglasses e-commerce marketplace data model
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  role      String   @default("CUSTOMER")
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  products          Product[]        // if role == SELLER
+  orders            Order[]          @relation("CustomerOrders")
+  sellerOrderItems  OrderItem[]      @relation("SellerOrderItems")
+}
+
+model Category {
+  id        Int        @id @default(autoincrement())
+  name      String
+  slug      String     @unique
+  parentId  Int?
+  parent    Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryHierarchy")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  products  Product[]
+}
+
+model Product {
+  id               Int        @id @default(autoincrement())
+  name             String
+  description      String?
+  sku              String     @unique
+
+  // Money in cents to avoid floating point/Decimal issues on SQLite
+  priceCents       Int
+  salePriceCents   Int?
+  onSale           Boolean    @default(false)
+  saleStartsAt     DateTime?
+  saleEndsAt       DateTime?
+
+  limitedEdition   Boolean    @default(false)
+  limitedQuantity  Int?
+
+  gender           String     @default("UNISEX")
+  material         String?
+  style            String?
+  color            String?
+
+  frameWidthMm     Int?
+  lensWidthMm      Int?
+  bridgeWidthMm    Int?
+  templeLengthMm   Int?
+  uvProtection     String?
+
+  images           String?
+
+  sellerId         Int
+  seller           User       @relation(fields: [sellerId], references: [id])
+
+  categoryId       Int?
+  category         Category?  @relation(fields: [categoryId], references: [id])
+
+  inventory        Inventory?
+
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  orderItems       OrderItem[]
+
+  @@index([sellerId])
+  @@index([categoryId])
+}
+
+model Inventory {
+  id                 Int      @id @default(autoincrement())
+  productId          Int      @unique
+  product            Product  @relation(fields: [productId], references: [id])
+  quantity           Int      @default(0)
+  reserved           Int      @default(0)
+  lowStockThreshold  Int?
+}
+
+model Order {
+  id              Int          @id @default(autoincrement())
+  orderNumber     String       @unique
+  customerId      Int
+  customer        User         @relation("CustomerOrders", fields: [customerId], references: [id])
+  status          String       @default("PENDING")
+
+  // Money in cents
+  subtotalCents   Int
+  discountCents   Int          @default(0)
+  shippingCents   Int          @default(0)
+  taxCents        Int          @default(0)
+  totalCents      Int
+
+  shippingAddress String?
+  notes           String?
+
+  placedAt        DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  items           OrderItem[]
+
+  @@index([customerId])
+}
+
+model OrderItem {
+  id             Int     @id @default(autoincrement())
+  orderId        Int
+  order          Order   @relation(fields: [orderId], references: [id])
+  productId      Int
+  product        Product @relation(fields: [productId], references: [id])
+
+  // denormalized for easier seller views
+  sellerId       Int
+  seller         User    @relation("SellerOrderItems", fields: [sellerId], references: [id])
+
+  quantity       Int
+  unitPriceCents Int
+  lineTotalCents Int
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([sellerId])
 }
