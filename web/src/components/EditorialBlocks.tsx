@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography, Stack, Button } from '@mui/material'
 
-import { Link } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 
 type Editorial = {
   id: string
@@ -28,6 +28,30 @@ const items: Editorial[] = [
 ]
 
 const EditorialBlocks = () => {
+  const handleEditorials = () => {
+    navigate(routes.editorials())
+  }
+
+  const handleProduct = () => {
+    navigate(routes.editorials({ slug: 'LL-AERO-AVIATOR-001' }))
+  }
+
+  const handleCollections = () => {
+    navigate(routes.collection({ slug: 'fashion' }))
+  }
+
+  const handleStats = () => {
+    navigate(routes.adminPanel())
+  }
+
+  const handleLogout = () => {
+    navigate(routes.login())
+  }
+
+  const handleHome = () => {
+    navigate(routes.home())
+  }
+
   if (items.length === 0) return null
   return (
     <section
@@ -36,17 +60,34 @@ const EditorialBlocks = () => {
     >
       <AppBar position="sticky" color={'transparent'} elevation={2}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Link to="/">
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              LuxeLens
-            </Typography>
-          </Link>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            LuxeLens
+          </Typography>
           <Stack direction="row" gap={2}>
-            <Button color="inherit" variant="outlined">
+            <Button onClick={handleHome} color="inherit" variant="outlined">
               Shop
             </Button>
-
-            <Button color="inherit" variant="outlined">
+            <Button onClick={handleProduct} color="inherit" variant="outlined">
+              Products
+            </Button>
+            <Button
+              onClick={handleCollections}
+              color="inherit"
+              variant="outlined"
+            >
+              Collections
+            </Button>
+            <Button onClick={handleStats} color="inherit" variant="outlined">
+              Stats
+            </Button>
+            <Button
+              onClick={handleEditorials}
+              color="inherit"
+              variant="outlined"
+            >
+              Editorials
+            </Button>
+            <Button onClick={handleLogout} color="inherit" variant="outlined">
               Logout
             </Button>
           </Stack>

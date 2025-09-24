@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { AppBar, Toolbar, Typography, Box, Stack } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, Stack, Button } from '@mui/material'
+
+import { navigate, routes } from '@redwoodjs/router'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -11,6 +13,30 @@ const Navbar = () => {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const handleEditorials = () => {
+    navigate(routes.editorials())
+  }
+
+  const handleProduct = () => {
+    navigate(routes.product({ sku: 'LL-AERO-AVIATOR-001' }))
+  }
+
+  const handleCollections = () => {
+    navigate(routes.collection({ slug: 'fashion' }))
+  }
+
+  const handleStats = () => {
+    navigate(routes.adminPanel())
+  }
+
+  const handleLogout = () => {
+    navigate(routes.login())
+  }
+
+  const handleHome = () => {
+    navigate(routes.home())
+  }
 
   return (
     <AppBar
@@ -35,14 +61,16 @@ const Navbar = () => {
       >
         {/* Logo */}
         <Box display="flex" alignItems="center" gap={1.5}>
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '50%',
-              bgcolor: 'grey.900',
+          <img
+            src="https://www.shutterstock.com/image-illustration/vector-ll-logo-clothing-fashion-260nw-2371407755.jpg"
+            style={{
+              width: 48,
+              height: 48,
+              objectFit: 'cover',
+              border: '1px solid black',
+              marginLeft: 5,
             }}
-            aria-hidden
+            alt="logo"
           />
           <Typography variant="subtitle1" fontWeight={500} letterSpacing={2}>
             LUXE LENS
@@ -50,25 +78,29 @@ const Navbar = () => {
         </Box>
 
         {/* Navigation Links */}
-        <Stack
-          direction="row"
-          spacing={4}
-          sx={{ display: { xs: 'none', md: 'flex' } }}
-        >
-          {['Sunglasses', 'Eyewear', 'New', 'Stories'].map((item) => (
-            <Typography
-              key={item}
-              variant="body2"
-              sx={{
-                color: 'text.secondary',
-                cursor: 'pointer',
-                transition: 'color 0.3s',
-                '&:hover': { color: 'text.primary' },
-              }}
-            >
-              {item}
-            </Typography>
-          ))}
+        <Stack direction="row" gap={2}>
+          <Button onClick={handleHome} color="primary" variant="outlined">
+            Shop
+          </Button>
+          <Button onClick={handleProduct} color="primary" variant="outlined">
+            Products
+          </Button>
+          <Button
+            onClick={handleCollections}
+            color="primary"
+            variant="outlined"
+          >
+            Collections
+          </Button>
+          <Button onClick={handleStats} color="primary" variant="outlined">
+            Stats
+          </Button>
+          <Button onClick={handleEditorials} color="primary" variant="outlined">
+            Editorials
+          </Button>
+          <Button onClick={handleLogout} color="primary" variant="outlined">
+            Logout
+          </Button>
         </Stack>
       </Toolbar>
     </AppBar>

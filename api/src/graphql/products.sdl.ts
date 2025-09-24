@@ -74,5 +74,3 @@ export const schema = gql`
     searchSuggest(term: String!, limit: Int = 6): [SearchSuggestion!]! @skipAuth
   }
 `
-
-

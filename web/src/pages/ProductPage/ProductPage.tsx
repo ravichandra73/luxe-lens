@@ -81,7 +81,7 @@ const ProductPage = () => {
       <Container maxWidth="lg" sx={{ py: 6 }}>
         <Grid container spacing={6}>
           {/* Left: Image Gallery */}
-          <Grid item xs={12} md={6}>
+          <Grid>
             <ImageGallery
               images={images}
               activeIndex={active}
@@ -91,7 +91,7 @@ const ProductPage = () => {
           </Grid>
 
           {/* Right: Product Info */}
-          <Grid item xs={12} md={6}>
+          <Grid>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Typography variant="h4" fontWeight={600}>
                 {product.name}
@@ -129,7 +129,7 @@ const ProductPage = () => {
 
               {/* Details */}
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid>
                   <Typography variant="caption" color="text.secondary">
                     Material
                   </Typography>
@@ -137,7 +137,7 @@ const ProductPage = () => {
                     {product.material ?? '-'}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid>
                   <Typography variant="caption" color="text.secondary">
                     Style
                   </Typography>
@@ -145,7 +145,7 @@ const ProductPage = () => {
                     {product.style ?? '-'}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid>
                   <Typography variant="caption" color="text.secondary">
                     Color
                   </Typography>
@@ -153,7 +153,7 @@ const ProductPage = () => {
                     {product.color ?? '-'}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid>
                   <Typography variant="caption" color="text.secondary">
                     Limited
                   </Typography>

@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import gql from 'graphql-tag'
 
-import { Link } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import { Metadata, useQuery } from '@redwoodjs/web'
 
 import CampaignCarousel from 'src/components/CampaignCarousel'
@@ -89,6 +89,30 @@ const HomePage = () => {
     | CategorySummary[]
     | undefined
 
+  const handleEditorials = () => {
+    navigate(routes.editorials())
+  }
+
+  const handleProduct = () => {
+    navigate(routes.product({ sku: 'LL-AERO-AVIATOR-001' }))
+  }
+
+  const handleCollections = () => {
+    navigate(routes.collection({ slug: 'fashion' }))
+  }
+
+  const handleStats = () => {
+    navigate(routes.adminPanel())
+  }
+
+  const handleLogout = () => {
+    navigate(routes.login())
+  }
+
+  const handleHome = () => {
+    navigate(routes.home())
+  }
+
   return (
     <>
       <Metadata
@@ -103,15 +127,30 @@ const HomePage = () => {
             LuxeLens
           </Typography>
           <Stack direction="row" gap={2}>
-            <Button color="inherit" variant="outlined">
+            <Button onClick={handleHome} color="inherit" variant="outlined">
               Shop
             </Button>
-            <Link to="/editorialBlocks">
-              <Button color="inherit" variant="outlined">
-                Editorials
-              </Button>
-            </Link>
-            <Button color="inherit" variant="outlined">
+            <Button onClick={handleProduct} color="inherit" variant="outlined">
+              Products
+            </Button>
+            <Button
+              onClick={handleCollections}
+              color="inherit"
+              variant="outlined"
+            >
+              Collections
+            </Button>
+            <Button onClick={handleStats} color="inherit" variant="outlined">
+              Stats
+            </Button>
+            <Button
+              onClick={handleEditorials}
+              color="inherit"
+              variant="outlined"
+            >
+              Editorials
+            </Button>
+            <Button onClick={handleLogout} color="inherit" variant="outlined">
               Logout
             </Button>
           </Stack>
@@ -141,6 +180,7 @@ const HomePage = () => {
           <Typography
             variant="h3"
             sx={{ color: 'white', fontWeight: 700, textAlign: 'center' }}
+            onClick={handleProduct}
           >
             Discover Luxury Eyewear
           </Typography>

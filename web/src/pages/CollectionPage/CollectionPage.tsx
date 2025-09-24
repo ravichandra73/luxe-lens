@@ -11,7 +11,7 @@ import Navbar from 'src/components/Navbar'
 import ProductCard from 'src/components/ProductCard'
 
 const FILTERED_QUERY = gql`
-  query ProductsFiltered($slug: String!, $filters: ProductsFilterInput!) {
+  query ProductsFiltered($filters: ProductsFilterInput!) {
     productsFiltered(input: $filters) {
       id
       name
@@ -59,18 +59,18 @@ const CollectionPage = () => {
 
         <Grid container spacing={4} mt={1}>
           {/* Sidebar */}
-          <Grid item xs={12} md={3}>
+          <Grid>
             <Paper elevation={1} sx={{ p: 2 }}>
               <FilterSidebar initial={filters} onChange={onChange} />
             </Paper>
           </Grid>
 
           {/* Product Grid */}
-          <Grid item xs={12} md={9}>
+          <Grid>
             {products.length ? (
               <Grid container spacing={3}>
-                {products.map((p: any) => (
-                  <Grid item xs={12} sm={6} lg={4} key={p.id}>
+                {products.map((p) => (
+                  <Grid key={p.id}>
                     <ProductCard product={p} />
                   </Grid>
                 ))}
